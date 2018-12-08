@@ -1,17 +1,4 @@
 jobs:
-- job: macOs
-  pool:
-    name: Hosted macOS
-  steps:
-    - template: .azure/install.yml
-    - template: .azure/tests.yml
-
-- job: linux
-  pool:
-    name: Hosted Ubuntu 1604
-  steps:
-    - template: .azure/install.yml
-    - template: .azure/tests.yml
 
 - job: win
   dependsOn:
