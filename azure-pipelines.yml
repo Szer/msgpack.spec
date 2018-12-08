@@ -34,17 +34,3 @@ jobs:
         script: |
             $version = $(git describe --tags | %{$_ -replace '-([^g])', '.$1'})
             dotnet pack --no-build -v minimal -c Release /property:Version=$version /property:PackageOutputPath=$(Build.ArtifactStagingDirectory)
-
-    - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-      - task: NuGetCommand@2
-        displayName: push nuget packages
-        inputs:
-          command: push
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-          nuGetFeedType: external
-          publishFeedCredentials: api.nuget.org
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        artifactName: .nupkgs
